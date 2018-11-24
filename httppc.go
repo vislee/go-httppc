@@ -5,7 +5,7 @@ package httppc
 import (
 	"bytes"
 	"context"
-	"log"
+	// "log"
 	"net"
 	"net/http"
 	"strings"
@@ -26,7 +26,7 @@ func (self *proxyProDialer) DialContext(ctx context.Context, network, address st
 	conn, err := self.Dialer.DialContext(ctx, network, address)
 
 	if err != nil {
-		log.Println(err.Error())
+		// log.Println(err.Error())
 		return conn, err
 	}
 
@@ -97,6 +97,16 @@ func NewProxyProClient() *proxyProClient {
 		},
 	}
 	return pc
+}
+
+func (self *proxyProClient) NotFollowRedirects() {
+	self.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+		return http.ErrUseLastResponse
+	}
+}
+
+func (self *proxyProClient) SetTimeout(d time.Duration) {
+	self.Client.Timeout = d * time.Second
 }
 
 func (self *proxyProClient) SetProxyProClientIP(remoteAddr string) {

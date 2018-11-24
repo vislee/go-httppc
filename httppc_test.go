@@ -74,6 +74,7 @@ func TestProxyProClient(t *testing.T) {
 	req.Header.Add("X-test-waf", "test-waf")
 
 	pc := NewProxyProClient()
+	pc.SetTimeout(3)
 	pc.SetProxyProClientIP(clientAddr)
 	pc.SetProxyProServerIP(serverAddr)
 
@@ -105,4 +106,3 @@ func TestProxyProClient(t *testing.T) {
 	ln.Close()
 	close(ch)
 }
-
