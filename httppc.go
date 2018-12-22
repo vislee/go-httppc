@@ -46,7 +46,13 @@ func (self *proxyProDialer) DialContext(ctx context.Context, network, address st
 
 	if self.serAddr != "" {
 		serAddr = self.serAddr
+
+		if addrs := strings.Split(self.serAddr, ":"); len(addrs) == 2 {
+			serPort = addrs[1]
+			serAddr = addrs[0]
+		}
 	}
+
 	if self.cliAddr != "" {
 		cliAddr = self.cliAddr
 	}
